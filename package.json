@@ -1,0 +1,29 @@
+{
+  "name": "service-api",
+  "version": "0.0.1",
+  "description": "ajax tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangshaolong/service-api.git"
+  },
+  "keywords": [
+    "ajax",
+    "async",
+    "sync",
+    "request",
+    "api"
+  ],
+  "author": "zhangshaolong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhangshaolong/service-api/issues"
+  },
+  "homepage": "https://github.com/zhangshaolong/service-api#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
