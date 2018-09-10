@@ -31,5 +31,5 @@ ajax request and response a promise
   }).catch((error) => {
 
   })
-```javascript
+```
 
