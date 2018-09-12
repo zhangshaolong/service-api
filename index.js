@@ -18,6 +18,19 @@ let hideLoading = () => {}
 
 let dealError = () => {}
 
+let checkStatus = (resp) => {
+  let code = resp.code
+  if (code === 302) {
+    // to login
+  } else if (code === 403) {
+    // to auth
+  } else if (code === 200 || code === 0) {
+    return true
+  } else {
+    return false
+  }
+}
+
 axios.interceptors.response.use(
   (response) => {
     return response
@@ -100,10 +113,12 @@ const ajax = (path, params, options, type) => {
           // to login
         } else if (code === 403) {
           // to auth
-        } else if (code === 200 || code === 0) {
-          callback(true, resp, ts)
         } else {
-          callback(false, resp, ts)
+          if (checkStatus(resp)) {
+            callback(true, resp, ts)
+          } else {
+            callback(false, resp, ts)
+          }
         }
       }
       const dealException = (e) => {
@@ -208,6 +223,9 @@ export default {
     }
     if (config.dealError) {
       dealError = config.dealError
+    }
+    if (config.checkStatus) {
+      checkStatus = config.checkStatus
     }
   },
   get: (path, params = {}, options = {}) => {

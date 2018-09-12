@@ -13,6 +13,9 @@ ajax request and response a promise
     hideLoading: () => { to hide loading },
     dealError: (error) => {
       deal some error
+    },
+    checkStatus: (resp) => { // default code == 200 is success request, u can override method for your project
+      return resp.code === 200
     }
   })
 
@@ -31,5 +34,16 @@ ajax request and response a promise
   }).catch((error) => {
 
   })
+
+  let defered = service.post(path, {key: 'value'}, {
+    context: document.body
+  })
+
+  defered.then(() => {
+
+  })
+
+  // to cancel a ajax
+  defered.cancel()
 ```
 
