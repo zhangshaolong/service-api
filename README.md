@@ -20,7 +20,7 @@ ajax request and response a promise
   })
 
   service.get(path, {key: 'value'}, {
-    context: document.body
+    context: document.body // with a loading at the html node
   }).then((resp) => {
 
   }).catch((error) => {
@@ -46,7 +46,7 @@ ajax request and response a promise
   // to cancel a ajax
   defered.cancel()
 
-  you can set responseType on the third arguments
+  // you can set responseType on the third arguments
   service.get(path, {key: 'value'}, {
     context: document.body,
     responseType: 'arraybuffer'
