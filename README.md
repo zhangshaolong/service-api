@@ -45,5 +45,15 @@ ajax request and response a promise
 
   // to cancel a ajax
   defered.cancel()
+
+  you can set responseType on the third arguments
+  service.get(path, {key: 'value'}, {
+    context: document.body,
+    responseType: 'arraybuffer'
+  }).then((resp) => {
+
+  }).catch((error) => {
+
+  })
 ```
 

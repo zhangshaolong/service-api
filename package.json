@@ -1,6 +1,6 @@
 {
   "name": "service-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ajax tool",
   "main": "lib/index.js",
   "scripts": {

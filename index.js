@@ -62,6 +62,8 @@ const ajax = (path, params, options, type) => {
 
   let headers = options.headers
 
+  let responseType = options.responseType || 'json'
+
   const promise = new Promise((resolve, reject) => {
     let opts = {
       url: path,
@@ -73,6 +75,7 @@ const ajax = (path, params, options, type) => {
     if (headers) {
       opts.headers = headers
     }
+    opts.responseType = responseType
     if (type === 'GET') {
       opts.params = params
     } else {
