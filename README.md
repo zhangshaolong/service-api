@@ -49,7 +49,8 @@ ajax request and response a promise
   // you can set responseType on the third arguments
   service.get(path, {key: 'value'}, {
     context: document.body,
-    responseType: 'arraybuffer'
+    responseType: 'arraybuffer',
+    timeout: 30000 // config timeout ms, default 60000ms
   }).then((resp) => {
 
   }).catch((error) => {

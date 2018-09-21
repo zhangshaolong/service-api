@@ -62,6 +62,8 @@ const ajax = (path, params, options, type) => {
 
   let headers = options.headers
 
+  let timeout = options.timeout
+
   let responseType = options.responseType || 'json'
 
   const promise = new Promise((resolve, reject) => {
@@ -74,6 +76,9 @@ const ajax = (path, params, options, type) => {
     }
     if (headers) {
       opts.headers = headers
+    }
+    if (timeout) {
+      opts.timeout = timeout
     }
     opts.responseType = responseType
     if (type === 'GET') {
@@ -144,6 +149,9 @@ const ajax = (path, params, options, type) => {
           if (args.length) {
             url += '?' + args.join('&')
           }
+        }
+        if (timeout) {
+          xhr.timeout = timeout
         }
         xhr.open(type, url, false)
         let headers = Object.assign({}, axios.defaults.headers[type.toLowerCase()])
