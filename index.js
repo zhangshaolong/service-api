@@ -238,6 +238,9 @@ export default {
     if (config.checkStatus) {
       checkStatus = config.checkStatus
     }
+    if (config.globalContextType) {
+      axios.defaults.headers.post['Content-Type'] = config.globalContextType
+    }
   },
   get: (path, params = {}, options = {}) => {
     return ajax(path, params, options, 'GET')
