@@ -87,25 +87,22 @@ const ajax = (path, params, options, type) => {
       opts.data = params
       opts.transformRequest = [
         (data, config) => {
-          if (
-            data &&
-            config.post['Content-Type'].indexOf(
-              'application/x-www-form-urlencoded'
-            ) > -1
-          ) {
-            let str = ''
-            for (let key in data) {
-              str +=
-                '&' +
-                encodeURIComponent(key) +
-                '=' +
-                encodeURIComponent(data[key])
-            }
-            if (str) {
-              return str.substr(1)
+          if (data) {
+            if (config['Content-Type']) {
+              if (config['Content-Type'].indexOf('application/x-www-form-urlencoded') < 0) {
+                return JSON.stringify(data)
+              }
+            } else if (config.post['Content-Type'].indexOf('application/x-www-form-urlencoded') < 0) {
+              return JSON.stringify(data)
             }
           }
-          return JSON.stringify(data)
+          let str = ''
+          for (let key in data) {
+            str += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
+          }
+          if (str) {
+            return str.substr(1)
+          }
         }
       ]
     }
