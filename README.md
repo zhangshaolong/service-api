@@ -56,5 +56,8 @@ ajax request and response a promise
   }).catch((error) => {
 
   })
+
+  // to clear requests which has send and not received, like to a new page
+  service.clear()
 ```
 

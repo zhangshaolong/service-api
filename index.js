@@ -31,6 +31,28 @@ let checkStatus = (resp) => {
   }
 }
 
+const RequestManager = function () {
+  const requests = []
+  return {
+    add: (promise) => {
+      requests.push(promise)
+    },
+    remove: (promise) => {
+      for (let i = 0; i < requests.length; i++) {
+        if (requests[i] === promise) {
+          requests.splice(i, 1)
+          return
+        }
+      }
+    },
+    clear: () => {
+      while (requests.length) {
+        requests.pop().cancel()
+      }
+    }
+  }
+}()
+
 axios.interceptors.response.use(
   (response) => {
     return response
@@ -170,10 +192,13 @@ const ajax = (path, params, options, type) => {
         } catch (e) {
           dealException(e)
         }
+        RequestManager.remove(promise)
       } else {
         axios(opts).then((res) => {
           dealResponse(res.data)
-        }).catch(dealException)
+        }).catch(dealException).finally(() => {
+          RequestManager.remove(promise)
+        })
       }
     }
 
@@ -217,7 +242,11 @@ const ajax = (path, params, options, type) => {
 
   promise.cancel = (msg) => {
     cancel(msg)
+    RequestManager.remove(promise)
   }
+
+  RequestManager.add(promise)
+
   return promise
 }
 
@@ -272,5 +301,8 @@ export default {
       script.src = path + querys
     })
     return promise
+  },
+  clear () {
+    RequestManager.clear()
   }
 }
