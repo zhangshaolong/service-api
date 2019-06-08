@@ -10,6 +10,8 @@ axios.defaults.headers['x-requested-with'] = 'XMLHttpRequest'
 // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'//'application/x-www-form-urlencoded'
 const CancelToken = axios.CancelToken
 
+let restfulReg = /\{([^\}]+)\}/g
+
 let ignoreMap = {}
 
 let showLoading = () => {}
@@ -157,9 +159,19 @@ const ajax = (path, params, options, type) => {
           callback(false, e, ts)
         }
       }
+      let url = opts.url
+      let originalUrl = url
+      let isRestful = false
+      url = url.replace(restfulReg, (all, key) => {
+        isRestful = true
+        return params[key]
+      })
+      if (isRestful) {
+        params.__url__ = originalUrl
+        opts.url = url
+      }
       if (isSync) { // Implement a simple synchronization process, some headers not set, to be a problem
         let xhr = new XMLHttpRequest()
-        let url = opts.url
         if (type === 'GET') {
           let args = []
           for (let key in params) {

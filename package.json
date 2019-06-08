@@ -1,11 +1,11 @@
 {
   "name": "service-api",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "ajax tool",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel index.js -d lib"
+    "build": "uglifyjs index.js -o lib/index.js -c"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,9 @@
     "request",
     "api"
   ],
+  "pre-commit": [
+    "build"
+  ],
   "author": "zhangshaolong",
   "license": "MIT",
   "bugs": {
@@ -28,7 +31,7 @@
     "axios": "^0.18.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "pre-commit": "^1.2.2",
+    "uglify-es": "^3.3.9"
   }
 }
