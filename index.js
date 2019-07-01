@@ -33,6 +33,10 @@ let checkStatus = (resp) => {
   }
 }
 
+let beforeSend = (opts) => {
+  return opts
+}
+
 const RequestManager = function () {
   const requests = []
   return {
@@ -112,24 +116,23 @@ const ajax = (path, params, options, type) => {
       opts.transformRequest = [
         (data, config) => {
           if (data) {
-            if (config['Content-Type']) {
-              if (config['Content-Type'].indexOf('application/x-www-form-urlencoded') < 0) {
-                return JSON.stringify(data)
-              }
-            } else if (config.post['Content-Type'].indexOf('application/x-www-form-urlencoded') < 0) {
+            let contextType = config['Content-Type'] || config.post['Content-Type']
+            if (contextType && contextType.indexOf('application/x-www-form-urlencoded') < 0) {
               return JSON.stringify(data)
             }
-          }
-          let str = ''
-          for (let key in data) {
-            str += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
-          }
-          if (str) {
-            return str.substr(1)
+            let str = ''
+            for (let key in data) {
+              str += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
+            }
+            if (str) {
+              return str.substr(1)
+            }
           }
         }
       ]
     }
+
+    opts = beforeSend(opts)
 
     const doAjax = (callback, ts) => {
       const dealResponse = (resp) => {
@@ -278,6 +281,9 @@ export default {
     }
     if (config.globalContextType) {
       axios.defaults.headers.post['Content-Type'] = config.globalContextType
+    }
+    if (config.beforeSend) {
+      beforeSend = config.beforeSend
     }
   },
   get: (path, params = {}, options = {}) => {
