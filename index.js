@@ -117,15 +117,20 @@ const ajax = (path, params, options, type) => {
         (data, config) => {
           if (data) {
             let contextType = config['Content-Type'] || config.post['Content-Type']
-            if (contextType && contextType.indexOf('application/x-www-form-urlencoded') < 0) {
-              return JSON.stringify(data)
-            }
-            let str = ''
-            for (let key in data) {
-              str += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
-            }
-            if (str) {
-              return str.substr(1)
+            if (contextType) {
+              if (contextType.indexOf('application/json') > -1) {
+                return JSON.stringify(data)
+              }
+              if (contextType.indexOf('application/x-www-form-urlencoded') > -1) {
+                let str = ''
+                for (let key in data) {
+                  str += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
+                }
+                if (str) {
+                  return str.substr(1)
+                }
+              }
+              return data
             }
           }
         }
