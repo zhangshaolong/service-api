@@ -145,17 +145,10 @@ const ajax = (path, params, options, type) => {
           hideLoading(context)
           delete options.context
         }
-        let code = resp.code
-        if (code === 302) {
-          // to login
-        } else if (code === 403) {
-          // to auth
+        if (checkStatus(resp)) {
+          callback(true, resp, ts)
         } else {
-          if (checkStatus(resp)) {
-            callback(true, resp, ts)
-          } else {
-            callback(false, resp, ts)
-          }
+          callback(false, resp, ts)
         }
       }
       const dealException = (e) => {
